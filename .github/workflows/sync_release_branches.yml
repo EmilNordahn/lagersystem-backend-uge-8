@@ -33,11 +33,8 @@ jobs:
       if: success()
       env:
         TARGET_REPO: EmilNordahn/uge-8-release
-        TARGET_PAT: ${{ secrets.SECOND_REPO_PAT }}
-      run: |
-        echo "TARGET_PAT set? ${TARGET_PAT:+yes}"
-        
-        git remote add secondary https://x-access-token:${TARGET_PAT}@github.com/${TARGET_REPO}.git
+      run: |        
+        git remote add secondary https://x-access-token:${{ secrets.SECOND_REPO_PAT }}@github.com/${TARGET_REPO}.git
         # Push all release branches from origin to secondary repo
         for branch in $(git branch -r | grep origin/release/ | sed 's|origin/||'); do
           git push secondary $branch:$branch
